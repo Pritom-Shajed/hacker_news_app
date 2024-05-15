@@ -22,14 +22,21 @@ abstract class AppLoaders {
   static Widget spinningLines ({double? size, Color? color}){
     return SpinKitThreeBounce(
       color:  color ?? AppColors.primaryColor,
-      size: size ?? 30.r,
+      size: size ?? Dimensions.radius30,
     );
   }
 
   static Widget pulse ({double? size, Color? color}){
     return SpinKitPulse(
       color:  color ?? AppColors.primaryColor,
-      size: size ?? 30.r,
+      size: size ?? Dimensions.radius30,
+    );
+  }
+
+  static Widget wave ({double? size, Color? color}){
+    return SpinKitWave(
+      color:  color ?? AppColors.primaryColor,
+      size: size ?? Dimensions.radius30,
     );
   }
 }

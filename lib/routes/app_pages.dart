@@ -17,7 +17,6 @@ abstract class AppPages {
     GetPage(
       name: Routes.HOME,
       page: () =>  const HomePage(),
-      binding: HomeBinding(),
     ),
   ];
 }
