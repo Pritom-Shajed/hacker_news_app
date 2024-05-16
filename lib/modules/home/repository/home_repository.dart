@@ -6,12 +6,16 @@ class HomeRepository {
   final ApiClient apiClient;
   HomeRepository({required this.apiClient});
 
-  Future<Response> fetchTopStories () async{
+  Future<Response> fetchTopNews () async{
     return await apiClient.getData(ApiEndpoints.topNews);
   }
 
-  Future<Response> fetchNewStories () async{
+  Future<Response> fetchLatestNews () async{
     return await apiClient.getData(ApiEndpoints.latestNews);
+  }
+
+  Future<Response> fetchSpecificNews (int id) async{
+    return await apiClient.getData(ApiEndpoints.specificNews(id));
   }
 
 }

@@ -8,11 +8,11 @@ class SplashController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-     Get.find<HomeController>().fetchTopNews().then((topNewsResponse) {
+     Get.find<HomeController>().fetchTopNewsIds().then((topNewsResponse) {
        if(topNewsResponse.isSuccess){
-         Get.find<HomeController>().fetchLatestNews().then((latestNewsResponse) {
+         Get.find<HomeController>().fetchLatestNewsIds().then((latestNewsResponse) {
            if(latestNewsResponse.isSuccess){
-             Get.offAllNamed(Routes.HOME);
+             Get.offAllNamed(Routes.HOME, arguments: []);
            } else {
              log('latest news error: ${latestNewsResponse.message}');
            }
