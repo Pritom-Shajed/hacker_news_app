@@ -10,15 +10,14 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
+      body: SizedBox(
         width: double.maxFinite,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppIconWidgets.lottieAssetIcon(iconPath: AppLottieIcons.loader, size: context.screenWidth * 0.5),
             16.verticalSpace,
-            AppTexts.typeWriterText(text: Strings.appName)
+            AppTexts.typeWriterText(text: Strings.appName, fontSize: Dimensions.fontSize16)
           ],
         ),
       ),

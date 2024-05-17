@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
             defaultTransition: Transition.cupertino,
-            theme: ThemeConfig.lightTheme,
+            theme: ThemeConfig.darkTheme,
             initialRoute: AppPages.INITIAL,
             getPages: AppPages.routes,
           ),

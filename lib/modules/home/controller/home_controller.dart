@@ -11,9 +11,33 @@ class HomeController extends GetxController {
 
  HomeController({required this.homeRepo});
 
+ ///SLIDER
 
- ///NEWS DESCRIPTION
+ final _topNewsTapped = true.obs;
 
+ set topNewsTapped (value) => _topNewsTapped.value = value;
+
+ bool get topNewsTapped => _topNewsTapped.value;
+
+ final _latestNewsTapped = false.obs;
+
+ set latestNewsTapped (value) => _latestNewsTapped.value = value;
+
+ bool get latestNewsTapped => _latestNewsTapped.value;
+
+ sliderBtnTap({required bool isTopNewsTapped}) {
+  if(isTopNewsTapped){
+   topNewsTapped = true;
+   latestNewsTapped = false;
+  } else {
+   topNewsTapped = false;
+   latestNewsTapped = true;
+  }
+
+ }
+
+
+ ///NEWS
 
  final _isLoadingLatestNews = false.obs;
 
@@ -27,24 +51,68 @@ class HomeController extends GetxController {
 
  bool get isLoadingTopNews => _isLoadingTopNews.value;
 
- Future<void> fetchNews({required bool isTopNews}) async {
+ final _isLoadingPaginationTopNews = false.obs;
 
-  isTopNews ? isLoadingTopNews = true : isLoadingLatestNews = true;
+ set isLoadingPaginationTopNews (value) => _isLoadingPaginationTopNews.value = value;
 
- if(isTopNews ? topNews.isEmpty : latestNews.isEmpty){
-  if((isTopNews ? topNewsIds.length : latestNewsIds.length) <= 15){
-   for(var i = 0; i <= (isTopNews ? topNews.length : latestNewsIds.length); i++){
-    await fetchSpecificNewsById(isTopNews ? topNewsIds[i] : latestNewsIds[i], isTopNews: isTopNews);
+ bool get isLoadingPaginationTopNews => _isLoadingPaginationTopNews.value;
+
+ final _isLoadingPaginationLatestNews = false.obs;
+
+ set isLoadingPaginationLatestNews (value) => _isLoadingPaginationLatestNews.value = value;
+
+ bool get isLoadingPaginationLatestNews => _isLoadingPaginationLatestNews.value;
+
+ Future<void> fetchNews({required bool isTopNews, bool isLoadingInitial = true, bool isLoadingPagination = false}) async {
+
+
+  var news = isTopNews ? topNews : latestNews;
+
+  var newsIds = isTopNews ? topNewsIds : latestNewsIds;
+
+  if(isLoadingInitial){
+   if(news.isEmpty){
+    isTopNews ? isLoadingTopNews = true : isLoadingLatestNews = true;
+    if(newsIds.length <= 15){
+     for(var i = 0; i <= newsIds.length; i++){
+      await _fetchSpecificNewsById(newsIds[i], isTopNews: isTopNews);
+     }
+    } else {
+     for(var i = 0; i <= 15; i++){
+      log('${isTopNews ? 'Top' : 'Latest'} i : $i');
+      await _fetchSpecificNewsById(newsIds[i], isTopNews:  isTopNews);
+     }
+    }
    }
-  } else {
-   for(var i = 0; i <= 15; i++){
-    await fetchSpecificNewsById(isTopNews ? topNewsIds[i] : latestNewsIds[i], isTopNews:  isTopNews);
-   }
+
+   isTopNews ? isLoadingTopNews = false : isLoadingLatestNews = false;
   }
- }
-  isTopNews ? isLoadingTopNews = false : isLoadingLatestNews = false;
+
+  if(isLoadingPagination){
+
+   isTopNews ? isLoadingPaginationTopNews = true : isLoadingPaginationLatestNews = true;
+
+   if(news.length < newsIds.length){
+    if((newsIds.length - news.length) < 10 && (newsIds.length - news.length) > 0){
+     for(var i = 0; i <= newsIds.length; i++){
+      await _fetchSpecificNewsById(newsIds[i], isTopNews: false);
+     }
+    } else {
+     final currentNewsLength = news.length;
+     for(var i = currentNewsLength; i <= currentNewsLength + 10; i++){
+      log('${isTopNews ? 'Top' : 'Latest'} i : $i');
+      await _fetchSpecificNewsById(newsIds[i], isTopNews:  isTopNews);
+     }
+    }
+   }
+
+
+   isTopNews ? isLoadingPaginationTopNews = false : isLoadingPaginationLatestNews = false;
+  }
 
  }
+
+
 
  ///TOP NEWS
  final RxList<int> topNewsIds = <int>[].obs;
@@ -98,7 +166,7 @@ class HomeController extends GetxController {
  final RxList<NewsModel> latestNews = <NewsModel>[].obs;
  final RxList<NewsModel> topNews = <NewsModel>[].obs;
 
- Future<ResponseModel> fetchSpecificNewsById(int id, {required bool isTopNews}) async {
+ Future<ResponseModel> _fetchSpecificNewsById(int id, {required bool isTopNews}) async {
   try {
 
    final response = await homeRepo.fetchSpecificNews(id);

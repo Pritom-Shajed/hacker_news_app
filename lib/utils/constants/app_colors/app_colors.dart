@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 abstract class AppColors {
 
   static Color baseColor = hexToColor('#1B1E23');
-  static Color baseFontColor = hexToColor('#1B1E23');
+  static Color baseFontColor = Colors.white;
+  static Color lightFontColor = Colors.white.withOpacity(0.6);
   static Color primaryColor = Colors.red;
   static Color lightScaffoldBackgroundColor = const Color(0xFFFFFFFF);
   static Color darkScaffoldBackgroundColor = hexToColor('#2F2E2E');
   static Color secondaryAppColor = Colors.red.withOpacity(0.5);
-  static Color secondaryDarkAppColor = Colors.white;
+  static Color secondaryDarkAppColor = hexToColor('#2F2E2E');
   static Color tipColor = hexToColor('#B6B6B6');
   static Color lightGray = const Color(0xFFF6F6F6);
   static Color darkGray = const Color(0xFF9F9F9F);
   static Color black = const Color(0xFF000000);
   static Color white = const Color(0xFFFFFFFF);
   static Color red =  Colors.red.shade300;
+
+  static Color skeletonColor1 = Colors.black54;
+  static Color skeletonColor2 = Colors.black26;
 
   static Color placeCodeColor = hexToColor('#8CBEB4');
   static Color districtColor = hexToColor('#B44641');

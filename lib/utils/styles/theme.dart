@@ -26,8 +26,8 @@ abstract class ThemeConfig {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
-      backgroundColor: Colors.white,
       brightness: brightness,
+      scaffoldBackgroundColor: background,
       canvasColor: background,
       cardColor: background,
       dividerColor: divider,
@@ -98,82 +98,80 @@ abstract class ThemeConfig {
       unselectedWidgetColor: AppColors.lightGray,
       fontFamily: AppFonts.mulishRegular,
       textTheme: TextTheme(
-        headline1: baseTextTheme.headline1!.copyWith(
+        headlineLarge: baseTextTheme.displayLarge!.copyWith(
           fontFamily: AppFonts.mulishRegular,
           color: primaryText,
           fontSize: Dimensions.fontSize34,
-          fontWeight: FontWeight.bold,
         ),
-        headline2: baseTextTheme.headline2!.copyWith(
+        headlineMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize22,
-          fontWeight: FontWeight.bold,
+          fontSize: Dimensions.fontSize26,
         ),
-        headline3: baseTextTheme.headline3!.copyWith(
+        headlineSmall: baseTextTheme.displaySmall!.copyWith(
           color: secondaryText,
           fontFamily: AppFonts.mulishRegular,
           fontSize: Dimensions.fontSize20,
-          fontWeight: FontWeight.w600,
         ),
-        headline4: baseTextTheme.headline4!.copyWith(
+        titleLarge: baseTextTheme.displayLarge!.copyWith(
+          fontFamily: AppFonts.mulishRegular,
+          color: primaryText,
+          fontSize: Dimensions.fontSize28,
+        ),
+        titleMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize18,
-          fontWeight: FontWeight.w600,
+          fontSize: Dimensions.fontSize24,
         ),
-        headline5: baseTextTheme.headline5!.copyWith(
+        titleSmall: baseTextTheme.displaySmall!.copyWith(
+          color: secondaryText,
+          fontFamily: AppFonts.mulishRegular,
+          fontSize: Dimensions.fontSize20,
+        ),
+        labelLarge: baseTextTheme.displayLarge!.copyWith(
+          fontFamily: AppFonts.mulishRegular,
+          color: primaryText,
+          fontSize: Dimensions.fontSize20,
+        ),
+        labelMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
           fontSize: Dimensions.fontSize16,
-          fontWeight: FontWeight.w700,
         ),
-        headline6: baseTextTheme.headline6!.copyWith(
-          color: primaryText,
-          fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize14,
-          fontWeight: FontWeight.w700,
-        ),
-        bodyText1: baseTextTheme.bodyText1!.copyWith(
+        labelSmall: baseTextTheme.displaySmall!.copyWith(
           color: secondaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize15,
-        ),
-        bodyText2: baseTextTheme.bodyText2!.copyWith(
-          color: primaryText,
-          fontFamily: AppFonts.mulishRegular,
           fontSize: Dimensions.fontSize12,
-          fontWeight: FontWeight.w400,
         ),
-        button: baseTextTheme.button!.copyWith(
+        displayLarge: baseTextTheme.displayLarge!.copyWith(
+          fontFamily: AppFonts.mulishRegular,
           color: primaryText,
-          fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize12,
-          fontWeight: FontWeight.w700,
+          fontSize: Dimensions.fontSize20,
         ),
-        caption: baseTextTheme.caption!.copyWith(
-          color: primaryText,
-          fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize11,
-          fontWeight: FontWeight.w300,
-        ),
-        overline: baseTextTheme.overline!.copyWith(
-          color: secondaryText,
-          fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize11,
-          fontWeight: FontWeight.w500,
-        ),
-        subtitle1: baseTextTheme.subtitle1!.copyWith(
+        displayMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
           fontSize: Dimensions.fontSize16,
-          fontWeight: FontWeight.w700,
         ),
-        subtitle2: baseTextTheme.subtitle2!.copyWith(
+        displaySmall: baseTextTheme.displaySmall!.copyWith(
           color: secondaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize11,
-          fontWeight: FontWeight.w500,
+          fontSize: Dimensions.fontSize12,
+        ),
+        bodyLarge: baseTextTheme.displayLarge!.copyWith(
+          fontFamily: AppFonts.mulishRegular,
+          color: primaryText,
+          fontSize: Dimensions.fontSize20,
+        ),
+        bodyMedium: baseTextTheme.displayMedium!.copyWith(
+          color: primaryText,
+          fontFamily: AppFonts.mulishRegular,
+          fontSize: Dimensions.fontSize16,
+        ),
+        bodySmall: baseTextTheme.displaySmall!.copyWith(
+          color: secondaryText,
+          fontFamily: AppFonts.mulishRegular,
+          fontSize: Dimensions.fontSize12,
         ),
       ),
     );

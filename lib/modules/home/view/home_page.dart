@@ -1,13 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
-import 'package:hacker_news_app/components/global_widgets/buttons/app_buttons.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/modules/home/widgets/home_widgets.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,21 +17,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
-  late TabController _tabController;
 
   final _controller = Get.find<HomeController>();
 
+  late ScrollController _topNewsScrollController;
+  late ScrollController _latestNewsScrollController;
+
+  final GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
+
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
     _controller.fetchNews(isTopNews: true);
-    _controller.fetchNews(isTopNews: false);
+    _topNewsScrollController = ScrollController();
+    _latestNewsScrollController = ScrollController();
+    _topNewsScrollController.addListener(() {
+      if (_topNewsScrollController.position.pixels >= _topNewsScrollController.position.maxScrollExtent && !_controller.isLoadingPaginationTopNews) {
+          _controller.fetchNews(isTopNews: true, isLoadingInitial: false, isLoadingPagination: true);
+      }
+    });
+    _latestNewsScrollController.addListener(() {
+      if (_latestNewsScrollController.position.pixels >= _latestNewsScrollController.position.maxScrollExtent) {
+        _controller.fetchNews(isTopNews: false,isLoadingInitial: false, isLoadingPagination: true);
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _topNewsScrollController.dispose();
+    _latestNewsScrollController.dispose();
     super.dispose();
   }
 
@@ -42,49 +56,52 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     final latestNews = _controller.latestNews;
 
     return Scaffold(
-      appBar: GlobalAppBar.common(text: Strings.appName),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      body: SliderDrawer(
+        key: _key,
+        appBar: GlobalAppBar.common(),
+        slider: HomeWidgets.slider(key: _key),
+        child: Padding(
+          padding: REdgeInsets.only(left: 12, right: 12, top: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-        HomeWidgets.tabBar(controller: _tabController,tabText1: Strings.topNews, tabText2: Strings.latestNews),
+              HomeWidgets.greetings(appName: Strings.appName),
 
-          Expanded(child: TabBarView(
-              controller: _tabController,
-              children: [
-                Obx(() => _newsPage(isLoading: _controller.isLoadingTopNews, news: topNews)),
-                Obx(()=>  _newsPage(isLoading: _controller.isLoadingLatestNews, news: latestNews)
-                ),
-              ],))
-        ],
+              Expanded(
+                  child: Obx(() => _newsPage(
+                    controller: _controller,
+                      scrollController: _controller.topNewsTapped ? _topNewsScrollController : _latestNewsScrollController,
+                      news: _controller.topNewsTapped ? topNews : latestNews)))
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-Widget _newsPage ({required bool isLoading, required List<NewsModel> news}){
-  return   isLoading ? const Center(child: CircularProgressIndicator()) : Padding(
-      padding: REdgeInsets.all(12),
-      child: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          itemCount: news.length,
-          separatorBuilder: (context, index) => 14.verticalSpace,
-          itemBuilder: (context, index){
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppButtons.textButton(
-                    onTap: () async{
-                      if(news[index].url != null){
-                        final url = Uri.parse(news[index].url!);
-                        AppUrlLauncher.launchNewsUrl(url);
-                      }
+Widget _newsPage ({required HomeController controller, required List<NewsModel> news, required ScrollController scrollController}){
 
-                    },
-                    text: news[index].title ?? ''),
-                AppTexts.verySmallText(text: '${news[index].score} points by ${news[index].by} | ${TimeFormatter.differenceInHours(timestamp: news[index].time!)} hours ago | ${news[index].kids?.length ?? 0} comments')                     ],
-            );
-          })
-  );
+  return Obx(() {
+    final isLoadingInitial = controller.topNewsTapped ? controller.isLoadingTopNews : controller.isLoadingLatestNews;
+    final isLoadingPagination = controller.topNewsTapped ? controller.isLoadingPaginationTopNews : controller.isLoadingPaginationLatestNews;
+   return  ListView.separated(
+        controller: scrollController,
+        physics: isLoadingInitial ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),
+        itemCount: isLoadingInitial ? 5 : news.length + 1,
+        separatorBuilder: (context, index) => 14.verticalSpace,
+        itemBuilder: (context, index){
+          if(isLoadingInitial) {
+            return HomeWidgets.newsTileSkeleton();
+          } else {
+            if(index < news.length){
+              return HomeWidgets.newsTile(news[index], isTopNews: controller.topNewsTapped, onTapNews: () {}, onTapComments: () {});
+            } else {
+              return isLoadingPagination ? const Center(child: CircularProgressIndicator()) : const SizedBox.shrink();
+            }
+          }
+
+        });
+  });
 }

@@ -4,7 +4,7 @@ import 'package:hacker_news_app/utils/constants/constants.dart';
 
 abstract class AppTexts {
 
-  static Widget typeWriterText ({required String text, Duration? speed, double? fontSize, Color? color, FontWeight? fontWeight}) =>  AnimatedTextKit(animatedTexts: [TypewriterAnimatedText(text, speed: speed ?? const Duration(milliseconds: 100), textStyle: TextStyle(fontWeight: fontWeight, fontSize: fontSize ?? Dimensions.fontSize14,  color: color ?? AppColors.primaryColor))]);
+  static Widget typeWriterText ({required String text, Duration? speed, double? fontSize, Color? color, FontWeight? fontWeight}) =>  AnimatedTextKit(animatedTexts: [TypewriterAnimatedText(text, speed: speed ?? const Duration(milliseconds: 100), textStyle: TextStyle(fontWeight: fontWeight, fontSize: fontSize ?? Dimensions.fontSize14,  color: color ?? AppColors.baseFontColor))]);
 
   static Widget largeText ({required String text, Color? color, FontWeight? fontWeight}){
     return Text(text, style: TextStyle(color: color ?? AppColors.baseFontColor, fontSize: Dimensions.fontSize18, fontWeight: fontWeight),);
