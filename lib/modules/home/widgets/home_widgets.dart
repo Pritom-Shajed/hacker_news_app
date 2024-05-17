@@ -12,25 +12,12 @@ import 'package:hacker_news_app/utils/constants/constants.dart';
 class HomeWidgets {
   HomeWidgets._();
 
+  static SliderAppBar appBar ({String text = '', Color? color}) => SliderAppBar(title: Text(text), drawerIconColor: AppColors.white, appBarColor: AppColors.secondaryDarkAppColor,);
+
   static Widget greetings ({required String appName}){
     return RichText(text: TextSpan(text: 'Welcome to\n', style: TextStyle(color: AppColors.baseFontColor, fontWeight: FontWeight.bold, fontFamily: AppFonts.mulishRegular, fontSize: Dimensions.fontSize16), children: [
       TextSpan(text: '$appName!', style: TextStyle(color: AppColors.baseFontColor, fontFamily: AppFonts.mulishRegular, fontSize: Dimensions.fontSize28, fontWeight: FontWeight.bold),)
     ]));
-  }
-
-  static Widget tabBar ({required String tabText1, required String tabText2, required TabController controller}) {
-    return   Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingHorizontal16),
-      child: TabBar(
-        indicatorColor: AppColors.primaryColor,
-        labelStyle: TextStyle(color: AppColors.baseFontColor, fontFamily: AppFonts.mulishRegular, fontSize: Dimensions.fontSize16),
-        controller: controller,
-        tabs:  [
-          Tab(text: tabText1),
-          Tab(text: tabText2),
-        ],
-      ),
-    );
   }
 
   static Widget slider ({

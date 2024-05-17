@@ -101,32 +101,32 @@ abstract class ThemeConfig {
         headlineLarge: baseTextTheme.displayLarge!.copyWith(
           fontFamily: AppFonts.mulishRegular,
           color: primaryText,
-          fontSize: Dimensions.fontSize34,
+          fontSize: Dimensions.fontSize20,
         ),
         headlineMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize26,
+          fontSize: Dimensions.fontSize16,
         ),
         headlineSmall: baseTextTheme.displaySmall!.copyWith(
           color: secondaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize20,
+          fontSize: Dimensions.fontSize12,
         ),
         titleLarge: baseTextTheme.displayLarge!.copyWith(
           fontFamily: AppFonts.mulishRegular,
           color: primaryText,
-          fontSize: Dimensions.fontSize28,
+          fontSize: Dimensions.fontSize20,
         ),
         titleMedium: baseTextTheme.displayMedium!.copyWith(
           color: primaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize24,
+          fontSize: Dimensions.fontSize16,
         ),
         titleSmall: baseTextTheme.displaySmall!.copyWith(
           color: secondaryText,
           fontFamily: AppFonts.mulishRegular,
-          fontSize: Dimensions.fontSize20,
+          fontSize: Dimensions.fontSize12,
         ),
         labelLarge: baseTextTheme.displayLarge!.copyWith(
           fontFamily: AppFonts.mulishRegular,

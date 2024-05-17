@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
@@ -5,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/modules/home/widgets/home_widgets.dart';
+import 'package:hacker_news_app/routes/app_pages.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,19 +26,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
   late ScrollController _latestNewsScrollController;
 
   final GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
-
   @override
   void initState() {
     _controller.fetchNews(isTopNews: true);
     _topNewsScrollController = ScrollController();
     _latestNewsScrollController = ScrollController();
     _topNewsScrollController.addListener(() {
-      if (_topNewsScrollController.position.pixels >= _topNewsScrollController.position.maxScrollExtent && !_controller.isLoadingPaginationTopNews) {
+      if (_topNewsScrollController.position.pixels >= _topNewsScrollController.position.maxScrollExtent && !_controller.isLoadingPaginationTopNews)  {
           _controller.fetchNews(isTopNews: true, isLoadingInitial: false, isLoadingPagination: true);
       }
     });
     _latestNewsScrollController.addListener(() {
-      if (_latestNewsScrollController.position.pixels >= _latestNewsScrollController.position.maxScrollExtent) {
+      if (_latestNewsScrollController.position.pixels >= _latestNewsScrollController.position.maxScrollExtent && !_controller.isLoadingPaginationLatestNews) {
         _controller.fetchNews(isTopNews: false,isLoadingInitial: false, isLoadingPagination: true);
       }
     });
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     return Scaffold(
       body: SliderDrawer(
         key: _key,
-        appBar: GlobalAppBar.common(),
+        appBar: HomeWidgets.appBar(),
         slider: HomeWidgets.slider(key: _key),
         child: Padding(
           padding: REdgeInsets.only(left: 12, right: 12, top: 12),
@@ -96,9 +97,9 @@ Widget _newsPage ({required HomeController controller, required List<NewsModel> 
             return HomeWidgets.newsTileSkeleton();
           } else {
             if(index < news.length){
-              return HomeWidgets.newsTile(news[index], isTopNews: controller.topNewsTapped, onTapNews: () {}, onTapComments: () {});
+              return HomeWidgets.newsTile(news[index], isTopNews: controller.topNewsTapped, onTapNews: () => Get.toNamed(Routes.DETAILS, arguments: news[index].url!), onTapComments: () {});
             } else {
-              return isLoadingPagination ? const Center(child: CircularProgressIndicator()) : const SizedBox.shrink();
+              return isLoadingPagination ? HomeWidgets.newsTileSkeleton() : const SizedBox.shrink();
             }
           }
 

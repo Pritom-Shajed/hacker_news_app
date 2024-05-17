@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:hacker_news_app/data/api/api_response_handler.dart';
 import 'package:hacker_news_app/models/models.dart';
@@ -73,26 +72,26 @@ class HomeController extends GetxController {
   if(isLoadingInitial){
    if(news.isEmpty){
     isTopNews ? isLoadingTopNews = true : isLoadingLatestNews = true;
-    if(newsIds.length <= 15){
+    if(newsIds.length <= 10){
      for(var i = 0; i <= newsIds.length; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews: isTopNews);
      }
     } else {
-     for(var i = 0; i <= 15; i++){
+     for(var i = 0; i <= 10; i++){
       log('${isTopNews ? 'Top' : 'Latest'} i : $i');
       await _fetchSpecificNewsById(newsIds[i], isTopNews:  isTopNews);
      }
     }
    }
-
    isTopNews ? isLoadingTopNews = false : isLoadingLatestNews = false;
   }
 
   if(isLoadingPagination){
 
-   isTopNews ? isLoadingPaginationTopNews = true : isLoadingPaginationLatestNews = true;
-
    if(news.length < newsIds.length){
+
+    isTopNews ? isLoadingPaginationTopNews = true : isLoadingPaginationLatestNews = true;
+
     if((newsIds.length - news.length) < 10 && (newsIds.length - news.length) > 0){
      for(var i = 0; i <= newsIds.length; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews: false);
@@ -105,9 +104,8 @@ class HomeController extends GetxController {
      }
     }
    }
-
-
    isTopNews ? isLoadingPaginationTopNews = false : isLoadingPaginationLatestNews = false;
+
   }
 
  }
