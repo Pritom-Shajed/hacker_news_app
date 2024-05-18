@@ -1,5 +1,5 @@
 abstract class AppSvgIcons {
-  static String logo ='assets/icons/svg/logo.svg';
+  static String sidebarCharacter ='assets/icons/svg/sidebar_character.svg';
   static String news ='assets/icons/svg/news.svg';
 }
 

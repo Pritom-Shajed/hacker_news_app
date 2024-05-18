@@ -25,7 +25,7 @@ class HomeWidgets {
       child: ListView(
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          AppIconWidgets.svgAssetIcon(iconPath: AppSvgIcons.logo, size: 130.h),
+          AppIconWidgets.svgAssetIcon(iconPath: AppSvgIcons.sidebarCharacter, size: 130.h),
           30.verticalSpace,
           Obx(() => _sliderItem(title: Strings.topNews, isTapped: controller.topNewsTapped, onTap: (){
             controller.sliderBtnTap(isTopNewsTapped: true);
