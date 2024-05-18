@@ -1,14 +1,34 @@
-import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:hacker_news_app/data/api/api_response_handler.dart';
+import 'package:hacker_news_app/data/data.dart';
 import 'package:hacker_news_app/models/models.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomeController extends GetxController {
- final HomeRepository homeRepo;
+ final HomeRepository _homeRepo;
 
- HomeController({required this.homeRepo});
+ HomeController({required HomeRepository homeRepo}) : _homeRepo = homeRepo;
+
+ ///User Tour
+ late TutorialCoachMark _tutorialCoachMark;
+
+ void initAddInAppTour ({required GlobalKey drawerKey, required GlobalKey newsKey, required GlobalKey commentsKey, VoidCallback? onFinish}){
+  _tutorialCoachMark = TutorialCoachMark(
+   targets: addAppTargetsPage(
+       drawerKey: drawerKey, newsKey: newsKey, commentsKey: commentsKey),
+   colorShadow: AppColors.baseColor,
+   paddingFocus: 0,
+   hideSkip: false,
+   opacityShadow: 0.9,
+   onFinish: onFinish
+  );
+ }
+
+ void showInAppTour (BuildContext context){
+  _tutorialCoachMark.show(context: context);
+ }
 
  ///SLIDER
 
@@ -36,7 +56,7 @@ class HomeController extends GetxController {
  }
 
 
- ///NEWS
+ ///Initial Loading
 
  final _isLoadingLatestNews = false.obs;
 
@@ -50,6 +70,8 @@ class HomeController extends GetxController {
 
  bool get isLoadingTopNews => _isLoadingTopNews.value;
 
+ ///Pagination Loading
+
  final _isLoadingPaginationTopNews = false.obs;
 
  set isLoadingPaginationTopNews (value) => _isLoadingPaginationTopNews.value = value;
@@ -62,6 +84,8 @@ class HomeController extends GetxController {
 
  bool get isLoadingPaginationLatestNews => _isLoadingPaginationLatestNews.value;
 
+ ///API Calling
+
  Future<void> fetchNews({required bool isTopNews, bool isLoadingInitial = true, bool isLoadingPagination = false}) async {
 
 
@@ -72,13 +96,12 @@ class HomeController extends GetxController {
   if(isLoadingInitial){
    if(news.isEmpty){
     isTopNews ? isLoadingTopNews = true : isLoadingLatestNews = true;
-    if(newsIds.length <= 10){
-     for(var i = 0; i <= newsIds.length; i++){
+    if(newsIds.length <= 8){
+     for(var i = 0; i < newsIds.length; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews: isTopNews);
      }
     } else {
-     for(var i = 0; i <= 10; i++){
-      log('${isTopNews ? 'Top' : 'Latest'} i : $i');
+     for(var i = 0; i <= 8; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews:  isTopNews);
      }
     }
@@ -92,14 +115,13 @@ class HomeController extends GetxController {
 
     isTopNews ? isLoadingPaginationTopNews = true : isLoadingPaginationLatestNews = true;
 
-    if((newsIds.length - news.length) < 10 && (newsIds.length - news.length) > 0){
-     for(var i = 0; i <= newsIds.length; i++){
+    if((newsIds.length - news.length) < 8 && (newsIds.length - news.length) > 0){
+     for(var i = news.length; i < newsIds.length; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews: false);
      }
     } else {
      final currentNewsLength = news.length;
-     for(var i = currentNewsLength; i <= currentNewsLength + 10; i++){
-      log('${isTopNews ? 'Top' : 'Latest'} i : $i');
+     for(var i = currentNewsLength; i <= currentNewsLength + 8; i++){
       await _fetchSpecificNewsById(newsIds[i], isTopNews:  isTopNews);
      }
     }
@@ -118,7 +140,7 @@ class HomeController extends GetxController {
  Future<ResponseModel> fetchTopNewsIds() async {
   topNewsIds.clear();
   try {
-   final response = await homeRepo.fetchTopNews();
+   final response = await _homeRepo.fetchTopNews();
 
    final apiResponseHandler = ApiResponseHandler(
     response, successCallback: (response) {
@@ -144,7 +166,7 @@ class HomeController extends GetxController {
   latestNewsIds.clear();
   try {
 
-   final response = await homeRepo.fetchLatestNews();
+   final response = await _homeRepo.fetchLatestNews();
 
    final apiResponseHandler = ApiResponseHandler(
     response, successCallback: (response) {
@@ -167,7 +189,7 @@ class HomeController extends GetxController {
  Future<ResponseModel> _fetchSpecificNewsById(int id, {required bool isTopNews}) async {
   try {
 
-   final response = await homeRepo.fetchSpecificNews(id);
+   final response = await _homeRepo.fetchSpecificNews(id);
 
    final apiResponseHandler = ApiResponseHandler(
     response, successCallback: (response) {

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/helper/helper.dart';
 import 'package:hacker_news_app/helper/dependencies/dependencies.dart' as dep;
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Initializer {
   static void init(VoidCallback runApp) {
@@ -31,6 +32,8 @@ abstract class Initializer {
 
   static Future<void> _initServices() async {
     try {
+
+      await _initStorage();
       await _loadEnv();
       await _dependencyInjection();
 
@@ -38,6 +41,11 @@ abstract class Initializer {
     } catch (err) {
       rethrow;
     }
+  }
+
+  static Future<void> _initStorage() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    Get.put(sharedPreferences, permanent: true);
   }
 
   static Future<void> _loadEnv () async {

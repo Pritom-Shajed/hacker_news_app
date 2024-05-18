@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
-import 'package:hacker_news_app/components/global_widgets/buttons/app_buttons.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
-import 'package:hacker_news_app/components/global_widgets/skeletons/app_skeletons.dart';
-import 'package:hacker_news_app/modules/home/controller/home_controller.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
 
 class HomeWidgets {
   HomeWidgets._();
 
-  static SliderAppBar appBar ({String text = '', Color? color}) => SliderAppBar(title: Text(text), drawerIconColor: AppColors.white, appBarColor: AppColors.secondaryDarkAppColor,);
+  static PreferredSizeWidget appBar ({String text = '', Color? color, VoidCallback? onTapDrawer, Key? drawerKey}) => AppBar(title: Text(text), leading: AppButtons.iconButton(key: drawerKey, icon: Icons.menu, onTap: onTapDrawer), backgroundColor: AppColors.darkScaffoldBackgroundColor,);
 
   static Widget greetings ({required String appName}){
     return RichText(text: TextSpan(text: 'Welcome to\n', style: TextStyle(color: AppColors.baseFontColor, fontWeight: FontWeight.bold, fontFamily: AppFonts.mulishRegular, fontSize: Dimensions.fontSize16), children: [
@@ -20,20 +16,21 @@ class HomeWidgets {
     ]));
   }
 
-  static Widget slider ({
-   required GlobalKey<SliderDrawerState> key,
-  }){
+  static Widget slider ({required GlobalKey<ScaffoldState> key}){
     final controller = Get.find<HomeController>();
-    return Padding(
+    return Container(
       padding: REdgeInsets.only(top: 80, left: 10, right: 10, bottom: 20),
+      color: AppColors.darkScaffoldBackgroundColor,
+      width: Get.width *0.6,
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           AppIconWidgets.svgAssetIcon(iconPath: AppSvgIcons.logo, size: 130.h),
           30.verticalSpace,
           Obx(() => _sliderItem(title: Strings.topNews, isTapped: controller.topNewsTapped, onTap: (){
             controller.sliderBtnTap(isTopNewsTapped: true);
             if(key.currentState!.isDrawerOpen){
-              key.currentState!.closeSlider();
+              key.currentState!.closeDrawer();
             }
             if(!controller.isLoadingTopNews){
               if(controller.topNews.isEmpty){
@@ -45,7 +42,7 @@ class HomeWidgets {
         Obx(() =>    _sliderItem(title: Strings.latestNews, isTapped: controller.latestNewsTapped, onTap: (){
           controller.sliderBtnTap(isTopNewsTapped: false);
                 if(key.currentState!.isDrawerOpen){
-                  key.currentState!.closeSlider();
+                  key.currentState!.closeDrawer();
                 }
                 if(!controller.isLoadingLatestNews){
                   if(controller.latestNews.isEmpty){
@@ -59,8 +56,9 @@ class HomeWidgets {
     );
   }
   
-  static Widget newsTile (NewsModel news, {required bool isTopNews, VoidCallback? onTapComments, VoidCallback? onTapNews}){
+  static Widget newsTile (NewsModel news, {Key? newsKey, Key? commentsKey, required bool isTopNews, VoidCallback? onTapComments, VoidCallback? onTapNews}){
     return GestureDetector(
+      key: newsKey,
       onTap: onTapNews,
       child: Stack(
         children: [
@@ -94,50 +92,39 @@ class HomeWidgets {
               bottom: 0,
               left: 0,
               right: 0,
-              child: Padding(
-                padding: REdgeInsets.all(5),
-                child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+              child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
 
-                //News Details
-                Expanded(
+              //News Details
+              Expanded(
+                child: NewsGlobalWidgets.newsHeader(title: news.title, score: news.score, author: news.by, time: news.time),
+              ),
+
+              6.horizontalSpace,
+
+              //Comment
+              GestureDetector(
+                key: commentsKey,
+                onTap: onTapComments,
+                child: Container(
+                  margin: REdgeInsets.all(6),
+                  padding: REdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius4),
+                    color: AppColors.baseColor,
+                  ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      AppButtons.textButton(
-                          isTappable: news.url != null,
-                          onTap: () async{
-                            if(news.url != null){
-                              final url = Uri.parse(news.url!);
-                              AppUrlLauncher.launchNewsUrl(url);
-                            }
-
-                          },
-                          fontWeight: FontWeight.w600,
-                          text: news.title ?? ''),
-                      AppTexts.verySmallText(text: '${news.score} points by ${news.by} | ${TimeFormatter.differenceInHours(timestamp: news.time!)} hours ago'),
+                      const Icon(Icons.comment, color: Colors.white,),
+                      AppTexts.mediumText(text: '${news.kids?.length ?? 0}')
                     ],
                   ),
                 ),
-
-                //Comment
-                GestureDetector(
-                  onTap: onTapComments,
-                  child: Padding(
-                    padding: REdgeInsets.all(4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.comment, color: Colors.white,),
-                        AppTexts.mediumText(text: '${news.kids?.length ?? 0}')
-                      ],
-                    ),
-                  ),
-                )
-                          ],
-                        ),
-              )),
+              )
+                        ],
+                      )),
         ],
       ),
     );

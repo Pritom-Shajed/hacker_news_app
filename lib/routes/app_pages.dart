@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hacker_news_app/modules/comments/comments.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/modules/news_details/news_details.dart';
 import 'package:hacker_news_app/modules/splash/splash.dart';
@@ -24,6 +25,13 @@ abstract class AppPages {
       name: Routes.DETAILS,
       page: () =>  const NewsDetailsPage(),
       binding: NewsDetailsBinding()
+    ),
+
+
+    GetPage(
+        name: Routes.COMMENTS,
+        page: () =>  const CommentsPage(),
+        binding: CommentsBinding()
     ),
   ];
 }

@@ -10,8 +10,8 @@ abstract class AppTexts {
     return Text(text, style: TextStyle(color: color ?? AppColors.baseFontColor, fontSize: Dimensions.fontSize18, fontWeight: fontWeight),);
   }
 
-  static Widget mediumText ({required String text, Color? color, FontWeight? fontWeight}){
-    return Text(text, style: TextStyle(color: color ?? AppColors.baseFontColor, fontSize: Dimensions.fontSize14, fontWeight: fontWeight ),);
+  static Widget mediumText ({int? maxLine, TextOverflow? overflow, required String text, Color? color, FontWeight? fontWeight}){
+    return Text(text, maxLines: maxLine, overflow: overflow, style: TextStyle(color: color ?? AppColors.baseFontColor, fontSize: Dimensions.fontSize14, fontWeight: fontWeight ),);
   }
 
   static Widget smallText ({required String text, TextAlign? textAlign, Color? color, FontWeight? fontWeight}){

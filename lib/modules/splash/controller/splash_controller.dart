@@ -1,7 +1,8 @@
-import 'dart:developer';
 import 'package:get/get.dart';
+import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/modules/home/controller/home_controller.dart';
 import 'package:hacker_news_app/routes/routes.dart';
+import 'package:hacker_news_app/utils/constants/constants.dart';
 
 class SplashController extends GetxController {
 
@@ -12,13 +13,13 @@ class SplashController extends GetxController {
        if(topNewsResponse.isSuccess){
          Get.find<HomeController>().fetchLatestNewsIds().then((latestNewsResponse) {
            if(latestNewsResponse.isSuccess){
-             Get.offAllNamed(Routes.HOME, arguments: []);
+             Get.offAllNamed(Routes.HOME);
            } else {
-             log('latest news error: ${latestNewsResponse.message}');
+             AppToasts.shortToast(Strings.unknownError);
            }
          });
        } else {
-         log('top news error: ${topNewsResponse.message}');
+         AppToasts.shortToast(Strings.unknownError);
        }
      });
   }

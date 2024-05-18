@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
 
 class AppButtons {
   AppButtons._();
 
-  static Widget textButton ({VoidCallback? onTap, int? maxLines, TextOverflow? overflow, required bool isTappable, required String text, Color? color, FontWeight? fontWeight}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(text, maxLines: maxLines ?? 3, overflow: overflow ?? TextOverflow.ellipsis, style: TextStyle(color: color ?? (isTappable ? AppColors.baseFontColor : AppColors.lightFontColor), fontSize: Dimensions.fontSize14, fontWeight: fontWeight ),),
-    );
+  static Widget iconButton ({Key? key, double? size, VoidCallback? onTap, required IconData icon, Color? color}){
+    return IconButton(key: key, onPressed: onTap, icon: Icon(icon, color: color ?? AppColors.white, size: size ?? 24.h,));
   }
 }
