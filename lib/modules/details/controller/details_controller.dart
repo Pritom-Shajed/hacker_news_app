@@ -7,7 +7,7 @@ class NewsDetailsController extends GetxController {
 
   late WebViewController webViewController;
 
-  final NewsModel news = Get.arguments;
+  final dynamic news = Get.arguments;
 
   final _isLoading = false.obs;
 
@@ -28,7 +28,7 @@ class NewsDetailsController extends GetxController {
           },
         ),
       )
-      ..loadRequest(Uri.parse(news.url!));
+      ..loadRequest(Uri.parse(news is NewsModel ? news.url! : news));
     super.onInit();
   }
 

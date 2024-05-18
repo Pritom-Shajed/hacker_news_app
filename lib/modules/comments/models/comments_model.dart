@@ -25,16 +25,4 @@ class CommentsModel {
     time = json['time'];
     type = json['type'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['by'] = by;
-    data['id'] = id;
-    data['kids'] = kids;
-    data['parent'] = parent;
-    data['text'] = text;
-    data['time'] = time;
-    data['type'] = type;
-    return data;
-  }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
-import 'package:hacker_news_app/modules/news_details/controller/news_details_controller.dart';
+import 'package:hacker_news_app/modules/details/details.dart';
+import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsDetailsPage extends StatelessWidget {
@@ -31,9 +32,9 @@ class NewsDetailsPage extends StatelessWidget {
         child: Column(
           children: [
 
-            NewsGlobalWidgets.newsHeader(title: controller.news.title, score: controller.news.score, author: controller.news.by, time: controller.news.time),
+            controller.news is NewsModel ? NewsGlobalWidgets.newsHeader(title: controller.news.title, score: controller.news.score, author: controller.news.by, time: controller.news.time) : const SizedBox.shrink(),
 
-            12.verticalSpace,
+            controller.news is NewsModel ?  12.verticalSpace : const SizedBox.shrink(),
 
             Expanded(
               child: Obx(

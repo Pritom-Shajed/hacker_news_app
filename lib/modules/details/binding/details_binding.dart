@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hacker_news_app/modules/news_details/news_details.dart';
+import 'package:hacker_news_app/modules/details/details.dart';
 
 class NewsDetailsBinding extends Bindings {
   @override

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hacker_news_app/modules/comments/comments.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
-import 'package:hacker_news_app/modules/news_details/news_details.dart';
+import 'package:hacker_news_app/modules/details/details.dart';
 import 'package:hacker_news_app/modules/splash/splash.dart';
 part 'app_routes.dart';
 

@@ -44,12 +44,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     _topNewsScrollController = ScrollController();
     _latestNewsScrollController = ScrollController();
     _topNewsScrollController.addListener(() {
-      if (_topNewsScrollController.position.pixels >= _topNewsScrollController.position.maxScrollExtent && !_homeController.isLoadingPaginationTopNews)  {
+      if (_topNewsScrollController.position.pixels >= _topNewsScrollController.position.maxScrollExtent && !_homeController.isLoadingAddTopNews)  {
         _homeController.fetchNews(isTopNews: true, isLoadingInitial: false, isLoadingPagination: true);
       }
     });
     _latestNewsScrollController.addListener(() {
-      if (_latestNewsScrollController.position.pixels >= _latestNewsScrollController.position.maxScrollExtent && !_homeController.isLoadingPaginationLatestNews) {
+      if (_latestNewsScrollController.position.pixels >= _latestNewsScrollController.position.maxScrollExtent && !_homeController.isLoadingAddLatestNews) {
         _homeController.fetchNews(isTopNews: false,isLoadingInitial: false, isLoadingPagination: true);
       }
     });
@@ -110,7 +110,7 @@ Widget _newsPage ({Key? newsKey, Key? commentsKey, required HomeController contr
 
   return Obx(() {
     final isLoadingInitial = controller.topNewsTapped ? controller.isLoadingTopNews : controller.isLoadingLatestNews;
-    final isLoadingPagination = controller.topNewsTapped ? controller.isLoadingPaginationTopNews : controller.isLoadingPaginationLatestNews;
+    final isLoadingPagination = controller.topNewsTapped ? controller.isLoadingAddTopNews : controller.isLoadingAddLatestNews;
    return  ListView.separated(
         controller: scrollController,
         physics: isLoadingInitial ? const NeverScrollableScrollPhysics() : const BouncingScrollPhysics(),

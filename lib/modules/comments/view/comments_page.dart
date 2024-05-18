@@ -8,6 +8,7 @@ import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/modules/comments/comments.dart';
 import 'package:hacker_news_app/modules/home/home.dart';
 import 'package:hacker_news_app/modules/home/widgets/home_widgets.dart';
+import 'package:hacker_news_app/routes/routes.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
 
 class CommentsPage extends StatefulWidget {
@@ -65,7 +66,11 @@ class _CommentsPageState extends State<CommentsPage> {
 
                         if(index < _controller.comments.length){
                           final comment = _controller.comments[index];
-                          return CommentsWidgets.commentTile(time: comment.time ?? 0, author: comment.by ?? '', comment: comment.text ?? '');
+                          return CommentsWidgets.commentTile(
+                              time: comment.time ?? 0,
+                              author: comment.by ?? '',
+                              comment: comment.text ?? '',
+                          );
                         } else {
                           return _controller.isLoadingAddComments ? HomeWidgets.newsTileSkeleton() : const SizedBox.shrink();
                         }

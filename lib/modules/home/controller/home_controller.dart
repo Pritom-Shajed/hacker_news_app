@@ -72,17 +72,17 @@ class HomeController extends GetxController {
 
  ///Pagination Loading
 
- final _isLoadingPaginationTopNews = false.obs;
+ final _isLoadingAddTopNews = false.obs;
 
- set isLoadingPaginationTopNews (value) => _isLoadingPaginationTopNews.value = value;
+ set isLoadingAddTopNews (value) => _isLoadingAddTopNews.value = value;
 
- bool get isLoadingPaginationTopNews => _isLoadingPaginationTopNews.value;
+ bool get isLoadingAddTopNews => _isLoadingAddTopNews.value;
 
- final _isLoadingPaginationLatestNews = false.obs;
+ final _isLoadingAddLatestNews = false.obs;
 
- set isLoadingPaginationLatestNews (value) => _isLoadingPaginationLatestNews.value = value;
+ set isLoadingAddLatestNews (value) => _isLoadingAddLatestNews.value = value;
 
- bool get isLoadingPaginationLatestNews => _isLoadingPaginationLatestNews.value;
+ bool get isLoadingAddLatestNews => _isLoadingAddLatestNews.value;
 
  ///API Calling
 
@@ -113,7 +113,7 @@ class HomeController extends GetxController {
 
    if(news.length < newsIds.length){
 
-    isTopNews ? isLoadingPaginationTopNews = true : isLoadingPaginationLatestNews = true;
+    isTopNews ? isLoadingAddTopNews = true : isLoadingAddLatestNews = true;
 
     if((newsIds.length - news.length) < 8 && (newsIds.length - news.length) > 0){
      for(var i = news.length; i < newsIds.length; i++){
@@ -126,7 +126,7 @@ class HomeController extends GetxController {
      }
     }
    }
-   isTopNews ? isLoadingPaginationTopNews = false : isLoadingPaginationLatestNews = false;
+   isTopNews ? isLoadingAddTopNews = false : isLoadingAddLatestNews = false;
 
   }
 
