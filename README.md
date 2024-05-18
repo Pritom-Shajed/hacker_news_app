@@ -1,16 +1,56 @@
-# hacker_news_app
 
-A new Flutter project.
+# Hacker News App
 
-## Getting Started
+This application is built using Flutter and the Hacker News API to deliver the latest and top news from Hacker News. Users can view news details read comments for each news article.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+
+- Top News: Browse the top news articles from Hacker News.
+- Latest News: Stay updated with the latest news articles.
+- News Details: View detailed news articles using an integrated webview.
+- Comments: Read comments for each news article.
+- User Tour: A guided tour to help new users understand the app's features and navigation.
+
+
+## Screenshots
+
+![App Screenshot](https://github.com/Pritom-Shajed/hacker_news_app/blob/master/screenshots/app_user_tour.png?raw=true)
+
+![App Screenshot](https://github.com/Pritom-Shajed/hacker_news_app/blob/master/screenshots/app_screenshots.png?raw=true)
+
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Pritom-Shajed/hacker_news_app
+cd hacker_news_app
+```
+
+Download the .env files and paste them at project root directory:
+
+```bash
+https://drive.google.com/drive/folders/1ZM0eMZLFYjrhTGfg6wDgoDjDV5fk_x0W?usp=sharing
+```
+
+Install dependencies:
+
+```bash
+flutter pub get
+```
+
+Run the app:
+
+```bash
+flutter run --release
+```
+    
+## Acknowledgements
+
+ - [Hacker News Api](https://github.com/HackerNews/API) for providing the API and complete documentation.
+ - [Flutter Documentation](https://docs.flutter.dev/) for the amazing guides and resources.
+

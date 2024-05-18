@@ -45,6 +45,7 @@ class _CommentsPageState extends State<CommentsPage> {
       body: Padding(
         padding: REdgeInsets.all(4),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             NewsGlobalWidgets.newsHeader(title: _news.title, score: _news.score, author: _news.by, time: _news.time),

@@ -30,6 +30,7 @@ class NewsDetailsPage extends StatelessWidget {
           }
         },
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
             controller.news is NewsModel ? NewsGlobalWidgets.newsHeader(title: controller.news.title, score: controller.news.score, author: controller.news.by, time: controller.news.time) : const SizedBox.shrink(),
