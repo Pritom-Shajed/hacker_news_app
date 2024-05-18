@@ -4,8 +4,6 @@
 This application is built using Flutter and the Hacker News API to deliver the latest and top news from Hacker News. Users can view news details read comments for each news article.
 
 
-
-
 ## Features
 
 - Top News: Browse the top news articles from Hacker News.

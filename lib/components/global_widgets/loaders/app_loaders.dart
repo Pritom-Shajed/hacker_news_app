@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hacker_news_app/components/global_widgets/global_widgets.dart';
 import 'package:hacker_news_app/utils/constants/constants.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 abstract class AppLoaders {
 
